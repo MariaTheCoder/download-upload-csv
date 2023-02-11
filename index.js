@@ -5,6 +5,8 @@ const data = [
   [3, "Ms. DumbDumb", false],
 ];
 
-downloadBtn.addEventListener("click", () => {
+downloadBtn.addEventListener("click", downloadCSV);
+
+function downloadCSV() {
   console.log("Hello World");
-});
+}
