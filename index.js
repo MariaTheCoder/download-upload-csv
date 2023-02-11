@@ -15,5 +15,15 @@ function downloadCSV() {
    */
   let csv = "Id,Name,isSmart\n";
 
-  console.log("Hello World");
+  /**
+   * Iterate over the data variable and add each array inside of the array (or "rows") to the original csv variable.
+   * Due to how the join method works, all data types in each row are converted into strings.
+   * Remember to specify new line with \n.
+   */
+  data.forEach((row) => {
+    csv += row.join(",");
+    csv += "\n";
+  });
+
+  console.log(csv);
 }
