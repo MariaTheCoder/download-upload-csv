@@ -1,9 +1,13 @@
 const downloadBtn = document.getElementById("download-btn");
+const gridContainer = document.getElementById("grid-container");
+
 const data = [
   [1, "Maria", true],
   [2, "Kerim", true],
   [3, "Ms. DumbDumb", false],
 ];
+
+//
 
 downloadBtn.addEventListener("click", downloadCSV);
 
@@ -48,8 +52,9 @@ function downloadCSV() {
   /**
    * Provide a name for the downloadable csv file and call the click() function on the link element to simulate a mouse click
    */
-  hiddenElement.download = "data.csv";
-  hiddenElement.click();
+  //   hiddenElement.download = "data.csv";
+  //   hiddenElement.click();
 
-  console.log(csv);
+  console.log("csv: /n", csv);
+  console.log("encodeURI(csv): /n", encodeURI(csv));
 }
