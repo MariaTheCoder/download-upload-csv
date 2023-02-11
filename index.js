@@ -7,7 +7,14 @@ const data = [
   [3, "Ms. DumbDumb", false],
 ];
 
-//
+data.forEach((row) => {
+  row.forEach((element) => {
+    let gridItem = document.createElement("div");
+    gridItem.setAttribute("class", "grid_element");
+    gridItem.innerHTML = element;
+    gridContainer.appendChild(gridItem);
+  });
+});
 
 downloadBtn.addEventListener("click", downloadCSV);
 
@@ -52,9 +59,6 @@ function downloadCSV() {
   /**
    * Provide a name for the downloadable csv file and call the click() function on the link element to simulate a mouse click
    */
-  //   hiddenElement.download = "data.csv";
-  //   hiddenElement.click();
-
-  console.log("csv: /n", csv);
-  console.log("encodeURI(csv): /n", encodeURI(csv));
+  hiddenElement.download = "data.csv";
+  hiddenElement.click();
 }
