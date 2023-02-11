@@ -45,5 +45,11 @@ function downloadCSV() {
   hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
   hiddenElement.target = "_blank";
 
+  /**
+   * Provide a name for the downloadable csv file and call the click() function on the link element to simulate a mouse click
+   */
+  hiddenElement.download = "data.csv";
+  hiddenElement.click();
+
   console.log(csv);
 }
