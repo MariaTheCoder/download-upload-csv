@@ -3,7 +3,11 @@
     grid-template-columns: 200px 200px 200px;
 }
 
-.grid_element {
+.grid_element, .grid_header {
     border: 1px solid black;
     text-align: center;
+}
+
+.grid_header {
+    font-weight: bold;
 }
