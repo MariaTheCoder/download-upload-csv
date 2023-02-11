@@ -11,23 +11,17 @@ const data = [
  * Firstly, we need to add the headers of the data we want to download
  */
 let csv = "Id,Name,isSmart\n";
+
+/**
+ * Convert the header titles in the csv variable above from one long strings to three strings within an array
+ */
 const headers = csv.slice(0, csv.length - 1);
 
-headers.split(",").forEach((header) => {
-  let gridItem = document.createElement("div");
-  gridItem.setAttribute("class", "grid_header");
-  gridItem.innerHTML = header;
-  gridContainer.appendChild(gridItem);
-});
-
-data.forEach((row) => {
-  row.forEach((element) => {
-    let gridItem = document.createElement("div");
-    gridItem.setAttribute("class", "grid_element");
-    gridItem.innerHTML = element;
-    gridContainer.appendChild(gridItem);
-  });
-});
+/**
+ * Create grid elements and headers and add to the document so the user can see the data that they can download
+ */
+createGridHeaders("grid_header");
+createGridElements("grid_element");
 
 downloadBtn.addEventListener("click", downloadCSV);
 
@@ -69,4 +63,22 @@ function downloadCSV() {
   hiddenElement.click();
 }
 
-console.log(headers.split(","));
+function createGridElements(className) {
+  data.forEach((row) => {
+    row.forEach((element) => {
+      let gridItem = document.createElement("div");
+      gridItem.setAttribute("class", className);
+      gridItem.innerHTML = element;
+      gridContainer.appendChild(gridItem);
+    });
+  });
+}
+
+function createGridHeaders(className) {
+  headers.split(",").forEach((header) => {
+    let gridItem = document.createElement("div");
+    gridItem.setAttribute("class", className);
+    gridItem.innerHTML = header;
+    gridContainer.appendChild(gridItem);
+  });
+}
