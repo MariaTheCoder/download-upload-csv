@@ -41,7 +41,7 @@ function downloadCSV() {
    * Then we add the attribute target to the link and give it the value of _blank to ensure that the file is not opened in the current tab.
    * This particular step has been historically important as not all browsers opened links in the same way. This step simply exists to ensure that all browsers, and all versions, open the link in the same way.
    */
-  let hiddenElement = document.createElement("a");
+  const hiddenElement = document.createElement("a");
   hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
   hiddenElement.target = "_blank";
 
