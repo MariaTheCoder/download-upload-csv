@@ -53,6 +53,13 @@ function readCSV() {
   fileReader.readAsText(file);
 
   /**
+   * If an error happens while loading the fileReader reads the uploaded file, alert the user.
+   */
+  fileReader.addEventListener("error", () => {
+    alert(fileReader.error);
+  });
+
+  /**
    * The contents of the file is read asynchronously. Therefore we call an eventlistener on the fileReader object.
    * We listen for the event "load" and look into the result attribute of the fileReader object once the fileReader object has finished loading.
    */
