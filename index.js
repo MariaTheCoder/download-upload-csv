@@ -20,8 +20,8 @@ const headers = csv.slice(0, csv.length - 1);
 /**
  * Create grid elements and headers and add to the document so the user can see the data that they can download
  */
-createGridHeaders("grid_header");
-createGridElements("grid_element");
+createGridHeaders();
+createGridElements();
 
 downloadBtn.addEventListener("click", downloadCSV);
 
@@ -63,21 +63,21 @@ function downloadCSV() {
   hiddenElement.click();
 }
 
-function createGridElements(className) {
+function createGridElements() {
   data.forEach((row) => {
     row.forEach((element) => {
       let gridItem = document.createElement("div");
-      gridItem.setAttribute("class", className);
+      gridItem.setAttribute("class", "grid_element");
       gridItem.innerHTML = element;
       gridContainer.appendChild(gridItem);
     });
   });
 }
 
-function createGridHeaders(className) {
+function createGridHeaders() {
   headers.split(",").forEach((header) => {
     let gridItem = document.createElement("div");
-    gridItem.setAttribute("class", className);
+    gridItem.setAttribute("class", "grid_header");
     gridItem.innerHTML = header;
     gridContainer.appendChild(gridItem);
   });
