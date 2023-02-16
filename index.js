@@ -1,5 +1,6 @@
 const downloadBtn = document.getElementById("download-btn");
 const gridContainer = document.getElementById("grid-container");
+const uploadBtn = document.getElementById("upload");
 const data = [
   [1, "Maria", true],
   [2, "Kerim", true],
@@ -24,6 +25,19 @@ createGridHeaders();
 createGridElements();
 
 downloadBtn.addEventListener("click", downloadCSV);
+
+uploadBtn.addEventListener("click", readCSV);
+
+function readCSV() {
+  /**
+   * First check if a file was loaded. If not, jump out of the function
+   */
+  if (uploadBtn.files.length <= 0) {
+    return;
+  }
+
+  console.log("Oy, some data was loaded!");
+}
 
 function downloadCSV() {
   /**
