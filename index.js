@@ -57,7 +57,18 @@ function readCSV() {
    * We listen for the event "load" and look into the result attribute of the fileReader object once the fileReader object has finished loading.
    */
   fileReader.addEventListener("load", () => {
-    console.log(fileReader.result);
+    const newHeaders = fileReader.result.split("\n")[0];
+    let records = "";
+
+    for (let i = 1; i < fileReader.result.split("\n").length - 1; i++) {
+      const record = fileReader.result.split("\n")[i];
+
+      records += record;
+      records += "\n";
+    }
+
+    console.log("newHeaders: ", newHeaders);
+    console.log("records: ", records);
   });
 }
 
