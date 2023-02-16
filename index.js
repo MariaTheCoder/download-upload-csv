@@ -46,11 +46,19 @@ function readCSV() {
    * To read the file, we can use a FileReader object.
    * Construct a new FileReader object and save it into a constant variable called 'fileReader'.
    * The FileReader object has an instance method called readAsText() which reads the content of a file.
-   * The content of the file is then stored inside of the result attribute in the form of a string.
+   * If the file is read correctly, the content of the file will be stored inside of the result attribute in the form of a string.
    */
   const file = uploadBtn.files[0];
   const fileReader = new FileReader();
   fileReader.readAsText(file);
+
+  /**
+   * The contents of the file is read asynchronously. Therefore we call an eventlistener on the fileReader object.
+   * We listen for the event "load" and look into the result attribute of the fileReader object once the fileReader object has finished loading.
+   */
+  fileReader.addEventListener("load", () => {
+    console.log(fileReader.result);
+  });
 }
 
 function downloadCSV() {
