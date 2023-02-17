@@ -36,8 +36,6 @@ function readCSV() {
     return;
   }
 
-  console.log("Oy, some data was loaded!");
-
   /**
    * If a file was correctly selected, use the FileReader object to see the content of the file.
    * Get access to selected file by using the files property of the HTMLInputElement uploadBtn.
@@ -86,7 +84,6 @@ function readCSV() {
 
     headers.split(",").forEach((old_header) => {
       newHeaders.split(";").forEach((new_header) => {
-
         /**
          * Check if headers are the same. If they are, increase count
          */
