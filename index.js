@@ -124,25 +124,35 @@ function readCSV() {
     let count = 0;
 
     console.log("old headers: ", headers.split(","));
-    console.log("new headers: ", newHeaders.split(";"));
+    console.log("new headers: ", newHeaders.split(","));
 
     headers.split(",").forEach((old_header) => {
-      newHeaders.split(";").forEach((new_header) => {
-        /**
-         * Check if headers are the same. If they are, increase count
-         */
-        old_header.toLowerCase() === new_header.toLowerCase() ? count++ : null;
-      });
+      for (let i = 0; i < newHeaders.split(",").length; i++) {
+        const new_header = newHeaders.split(",")[i];
+
+        if (new_header.includes("\n")) {
+          const newHeader = new_header.replace("\n", "");
+          /**
+           * Check if headers are the same. If they are, increase count
+           */
+          old_header.toLowerCase() === newHeader.toLowerCase() ? count++ : null;
+        } else {
+          /**
+           * Check if headers are the same. If they are, increase count
+           */
+          old_header.toLowerCase() === new_header.toLowerCase()
+            ? count++
+            : null;
+        }
+      }
     });
-    console.log("count: ", count);
-    console.log('headers.split(",").length: ', headers.split(",").length);
 
     /**
      * Check if count is equal to the number of headers in both the existing grid and in the number of headers in the newly uploaded csv file
      */
     if (
       count === headers.split(",").length &&
-      count === newHeaders.split(";").length
+      count === newHeaders.split(",").length
     ) {
       console.log("The two data tables have the exact same headers");
     } else {
