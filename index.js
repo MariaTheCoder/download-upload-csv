@@ -62,6 +62,34 @@ function readCSV() {
    * We listen for the event "load" and look into the result attribute of the fileReader object once the fileReader object has finished loading.
    */
   fileReader.addEventListener("load", () => {
+    /**
+     * Now we iterate over the result with two goals.
+     * For starts, we want to make sure to cut loose the invisible \r at the end of each string line.
+     * The invisible character is attached to the value of isSmart in each line, a.k.a. the value in the last column.
+     * We can cut this character out with the slice method.
+     * Secondly, we want to create a new grid item for each cell
+     */
+
+    fileReader.result.split("\n").forEach((row) => {
+      for (let i = 0; i < row.split(";").length; i++) {
+        const cell = row.split(";")[i];
+
+        if (cell.includes("\r")) {
+          const newCell = cell.replace("\r", "");
+
+          let gridItem = document.createElement("div");
+          gridItem.setAttribute("class", "grid_element");
+          gridItem.innerHTML = newCell;
+          gridContainer.appendChild(gridItem);
+        } else {
+          let gridItem = document.createElement("div");
+          gridItem.setAttribute("class", "grid_element");
+          gridItem.innerHTML = cell;
+          gridContainer.appendChild(gridItem);
+        }
+      }
+    });
+
     const newHeaders = fileReader.result.split("\n")[0];
     let records = "";
 
