@@ -87,9 +87,20 @@ function readCSV() {
       .map((header) => header.toLowerCase())
       .sort();
 
-    if (sortedHeaders.toString() === sortedNewHeaders.toString())
+    if (sortedHeaders.toString() === sortedNewHeaders.toString()) {
       console.log("The headers are identical!");
-    else {
+
+      for (let i = 1; i < newData.length; i++) {
+        const collection = newData[i];
+
+        collection.forEach((record) => {
+          let gridItem = document.createElement("div");
+          gridItem.setAttribute("class", "grid_element");
+          gridItem.innerHTML = record;
+          gridContainer.appendChild(gridItem);
+        });
+      }
+    } else {
       console.log("The headers are NOT identical");
     }
   });
