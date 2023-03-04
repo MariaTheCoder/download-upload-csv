@@ -102,6 +102,25 @@ function readCSV() {
       }
     } else {
       console.log("The headers are NOT identical");
+
+      /**
+       * Replace existing grid with a new one.
+       * The records in the new grid should match the content of the selected csv file
+       */
+
+      gridContainer.innerHTML = "";
+      createGridHeaders(newHeaders);
+
+      for (let i = 1; i < newData.length; i++) {
+        const collection = newData[i];
+
+        collection.forEach((record) => {
+          let gridItem = document.createElement("div");
+          gridItem.setAttribute("class", "grid_element");
+          gridItem.innerHTML = record;
+          gridContainer.appendChild(gridItem);
+        });
+      }
     }
   });
 }
