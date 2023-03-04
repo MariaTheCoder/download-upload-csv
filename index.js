@@ -1,28 +1,20 @@
 const downloadBtn = document.getElementById("download-btn");
 const gridContainer = document.getElementById("grid-container");
 const uploadBtn = document.getElementById("upload");
-let data = [
-  [1, "Maria", true],
-  [2, "Kerim", true],
-  [3, "Ms. DumbDumb", false],
-];
-/**
- * In order for this particular solution to work, we need to work with data types of strings.
- * The following variable is to contain all data we want in our downloaded csv-file.
- * Firstly, we need to add the headers of the data we want to download
- */
-let csv = "Id,Name,isSmart\n";
-
-/**
- * Convert the header titles in the csv variable above from one long strings to three strings within an array
- */
-const headers = csv.slice(0, csv.length - 1);
+let data = {
+  headers: ["Id", "Name", "isSmart"],
+  data: [
+    [1, "Maria", true],
+    [2, "Kerim", true],
+    [3, "Ms. DumbDumb", false],
+  ],
+};
 
 /**
  * Create grid elements and headers and add to the document so the user can see the data that they can download
  */
-createGridHeaders();
-createGridElements();
+createGridHeaders(data.headers);
+createGridElements(data.data);
 
 downloadBtn.addEventListener("click", downloadCSV);
 
@@ -62,115 +54,61 @@ function readCSV() {
    * We listen for the event "load" and look into the result attribute of the fileReader object once the fileReader object has finished loading.
    */
   fileReader.addEventListener("load", () => {
-    let data = [];
-    let newHeaders = "";
-
     /**
      * Now we iterate over the result with two goals.
-     * For starts, we want to make sure to cut loose the invisible \r at the end of each string line.
+     * For starts, we want to find and replace \r at the end of each string line with ''.
      * The invisible character is attached to the value of isSmart in each line, a.k.a. the value in the last column.
-     * We can cut this character out with the slice method.
+     * We can cut this character out with the replaceAll method.
      * Secondly, we want to replace the value of the variable data and change its content content with the content of the file that was just uploaded
      */
 
-    for (let i = 1; i < fileReader.result.split("\n").length; i++) {
-      const row = fileReader.result.split("\n")[i];
-      const rowArray = [];
-
-      for (let j = 0; j < row.split(";").length; j++) {
-        const cell = row.split(";")[j];
-
-        if (cell.includes("\r")) {
-          const newCell = cell.replace("\r", "");
-
-          rowArray.push(newCell);
-        } else {
-          rowArray.push(cell);
-        }
-      }
-
-      data.push(rowArray);
-    }
+    let newData = fileReader.result.replaceAll("\r", "").split("\n");
+    newData = newData.map((row) => row.split(";"));
+    console.log("data after load: ", newData);
 
     /**
      * Save the new headers in the same format as the csv variable from earlier
      */
-    for (let i = 0; i < 1; i++) {
-      const row = fileReader.result.split("\n")[i];
 
-      for (let j = 0; j < row.split(";").length; j++) {
-        const cell = row.split(";")[j];
-
-        console.log("cell: ", cell);
-
-        if (cell.includes("\r")) {
-          const newCell = cell.replace("\r", "");
-
-          newHeaders += `${newCell}\n`;
-        } else {
-          newHeaders += `${cell},`;
-        }
-      }
-    }
-
-    console.log("data: ", data);
-    console.log("newHeaders: ", newHeaders);
+    const headers = data.headers;
+    const newHeaders = newData[0];
 
     /**
      * Check if the headers of the uploaded file are identical to the headers used in the grid
      *
      * We do this because if the headers are the same, we want to add grid elements to the existing grid rather than replace the entire grid
+     * First, we want all headers to be in all lowercase, then we sort the headers alphabetically and compare.
+     *
+     * If a direct comparison with two equal signs returns a boolean value of true, then the headers are identical
      */
-    let count = 0;
 
-    console.log("old headers: ", headers.split(","));
-    console.log("new headers: ", newHeaders.split(","));
+    const sortedHeaders = headers.map((header) => header.toLowerCase()).sort();
+    const sortedNewHeaders = newHeaders
+      .map((header) => header.toLowerCase())
+      .sort();
 
-    headers.split(",").forEach((old_header) => {
-      for (let i = 0; i < newHeaders.split(",").length; i++) {
-        const new_header = newHeaders.split(",")[i];
-
-        if (new_header.includes("\n")) {
-          const newHeader = new_header.replace("\n", "");
-          /**
-           * Check if headers are the same. If they are, increase count
-           */
-          old_header.toLowerCase() === newHeader.toLowerCase() ? count++ : null;
-        } else {
-          /**
-           * Check if headers are the same. If they are, increase count
-           */
-          old_header.toLowerCase() === new_header.toLowerCase()
-            ? count++
-            : null;
-        }
-      }
-    });
-
-    /**
-     * Check if count is equal to the number of headers in both the existing grid and in the number of headers in the newly uploaded csv file
-     */
-    if (
-      count === headers.split(",").length &&
-      count === newHeaders.split(",").length
-    ) {
-      console.log("The two data tables have the exact same headers");
-    } else {
-      console.log("The two data tables do not have the same headers");
+    if (sortedHeaders.toString() === sortedNewHeaders.toString())
+      console.log("The headers are identical!");
+    else {
+      console.log("The headers are NOT identical");
     }
   });
 }
 
 function downloadCSV() {
   /**
+   * In order for this particular solution to work, we need to work with data types of strings.
+   * The following variable is to contain all data we want in our downloaded csv-file.
+   * Firstly, we need to add the headers of the data we want to download
+   */
+  let csv = data.headers.join().concat("\n");
+
+  /**
    * Iterate over the data variable and add each array inside of the array (or "rows") to the original csv variable.
    * Due to how the join method works, all data types in each row are converted into strings.
    * Remember to specify new line with \n.
    */
-  data.forEach((row) => {
-    csv += row.join(",");
-    csv += "\n";
-  });
+  data?.data.map((row) => row.map((element) => csv.concat(element)));
 
   /**
    * The goal is to eventually be able to download a csv-file upon button click and the file should contain the content of the csv variable.
@@ -199,7 +137,7 @@ function downloadCSV() {
   hiddenElement.click();
 }
 
-function createGridElements() {
+function createGridElements(data) {
   data.forEach((row) => {
     row.forEach((element) => {
       let gridItem = document.createElement("div");
@@ -210,8 +148,8 @@ function createGridElements() {
   });
 }
 
-function createGridHeaders() {
-  headers.split(",").forEach((header) => {
+function createGridHeaders(headers) {
+  headers.forEach((header) => {
     let gridItem = document.createElement("div");
     gridItem.setAttribute("class", "grid_header");
     gridItem.innerHTML = header;
