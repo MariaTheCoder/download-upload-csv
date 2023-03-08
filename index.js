@@ -86,14 +86,41 @@ function readCSV() {
     const sortedNewHeaders = newHeaders
       .map((header) => header.toLowerCase())
       .sort();
+    const newRecords = [];
+
+    /**
+     * The records should also be stored separately from the headers in its own constant variable
+     * First, we need to get store the part of the newData variable that includes only reocords and no headers
+     * Second, we want to lowercase boolean values
+     */
+    const tempNewRecords = newData.slice(1);
+    const tempNewRecordsLowercaseBoolean = tempNewRecords
+      .join()
+      .replaceAll("TRUE", "true")
+      .replaceAll("FALSE", "false")
+      .split(",");
+
+    for (
+      let i = 0;
+      i < tempNewRecordsLowercaseBoolean.length;
+      i += newHeaders.length
+    ) {
+      const chunk = tempNewRecordsLowercaseBoolean.slice(
+        i,
+        i + newHeaders.length
+      );
+      newRecords.push(chunk);
+    }
+
+    console.log("newRecords: ", newRecords);
 
     if (sortedHeaders.toString() === sortedNewHeaders.toString()) {
       console.log("The headers are identical!");
 
-      for (let i = 1; i < newData.length; i++) {
-        const collection = newData[i];
+      for (let i = 0; i < newRecords.length; i++) {
+        const record = newRecords[i];
 
-        collection.forEach((record) => {
+        record.forEach((record) => {
           let gridItem = document.createElement("div");
           gridItem.setAttribute("class", "grid_element");
           gridItem.innerHTML = record;
@@ -101,7 +128,14 @@ function readCSV() {
         });
       }
     } else {
-      console.log("The headers are NOT identical");
+      /**
+       * Overwrite the old headers and records in the data variable with the data contained in the selected file
+       */
+
+      data.headers = newHeaders;
+      data.data = newRecords;
+
+      console.log("updated data variable: ", data);
 
       /**
        * Replace existing grid with a new one.
