@@ -137,6 +137,8 @@ async function main() {
          * Overwrite the old headers and records in the data variable with the data contained in the selected file
          */
 
+        deleteAllPosts();
+
         data.headers = newHeaders;
         data.data = newRecords;
 
@@ -204,6 +206,19 @@ async function main() {
      */
     hiddenElement.download = "data.csv";
     hiddenElement.click();
+  }
+
+  async function deleteAllPosts() {
+    const response = await fetch("http://localhost:9000/posts", {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      data = await response.json();
+      console.log('content of "data": ', data);
+    } else {
+      console.log(response.status);
+    }
   }
 
   function createGridElements(data) {
