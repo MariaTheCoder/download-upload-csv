@@ -1,5 +1,6 @@
 async function main() {
   const downloadBtn = document.getElementById("download-btn");
+  const editBtn = document.getElementById("edit-btn");
   const gridContainer = document.getElementById("grid-container");
   const uploadBtn = document.getElementById("upload");
 
@@ -20,6 +21,17 @@ async function main() {
   createGridElements(data.data);
 
   downloadBtn.addEventListener("click", downloadCSV);
+
+  editBtn.addEventListener("click", async () => {
+    const id = 1;
+
+    const foundIndex = data?.data.findIndex((record) => record[0] === id);
+    let tempCopy = data.data[foundIndex];
+    tempCopy[0] = 9;
+    data.data[foundIndex] = await editPost(tempCopy);
+
+    editBtn.innerHTML = "Successful!";
+  });
 
   uploadBtn.addEventListener("click", readCSV);
 
@@ -232,6 +244,23 @@ async function main() {
 
       // Adding body or contents to send
       body: JSON.stringify({ headers, records }),
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.log(response.status);
+      return {};
+    }
+  }
+
+  async function editPost(record) {
+    const response = await fetch("http://localhost:9000/put/:id", {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(record),
     });
 
     if (response.ok) {
