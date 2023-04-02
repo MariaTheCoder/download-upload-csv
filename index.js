@@ -56,7 +56,7 @@ async function main() {
      * The contents of the file is read asynchronously. Therefore we call an eventlistener on the fileReader object.
      * We listen for the event "load" and look into the result attribute of the fileReader object once the fileReader object has finished loading.
      */
-    fileReader.addEventListener("load", () => {
+    fileReader.addEventListener("load", async () => {
       /**
        * Now we iterate over the result with two goals.
        * For starts, we want to find and replace \r at the end of each string line with ''.
@@ -138,6 +138,8 @@ async function main() {
          */
 
         deleteAllPosts();
+        console.log(newHeaders);
+        data = await sendNewData(newHeaders, newRecords);
 
         data.headers = newHeaders;
         data.data = newRecords;
@@ -218,6 +220,25 @@ async function main() {
       console.log('content of "data": ', data);
     } else {
       console.log(response.status);
+    }
+  }
+
+  async function sendNewData(headers, records) {
+    const response = await fetch("http://localhost:9000/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      // Adding body or contents to send
+      body: JSON.stringify({ headers, records }),
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.log(response.status);
+      return {};
     }
   }
 
