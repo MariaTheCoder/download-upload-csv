@@ -31,6 +31,7 @@ async function main() {
     data.data[foundIndex] = await editPost(tempCopy);
 
     editBtn.innerHTML = "Successful!";
+    console.log("edited?: ", data.data[foundIndex]);
   });
 
   uploadBtn.addEventListener("click", readCSV);
