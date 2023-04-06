@@ -15,10 +15,9 @@ async function main() {
   }
 
   /**
-   * Create grid elements and headers and add to the document so the user can see the data that they can download
+   * Run the render function the first time in order create a grid in the document
    */
-  createGridHeaders(data.headers);
-  createGridElements(data.data);
+  render(data.headers, data.data);
 
   downloadBtn.addEventListener("click", downloadCSV);
 
@@ -221,6 +220,11 @@ async function main() {
      */
     hiddenElement.download = "data.csv";
     hiddenElement.click();
+  }
+
+  function render(headers, records) {
+    createGridHeaders(headers);
+    createGridElements(records);
   }
 
   async function deleteAllPosts() {
