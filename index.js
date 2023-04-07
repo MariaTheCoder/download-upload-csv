@@ -1,6 +1,7 @@
 async function main() {
   const downloadBtn = document.getElementById("download-btn");
   const editBtn = document.getElementById("edit-btn");
+  const uploadBtn = document.getElementById("upload-btn");
   const gridContainer = document.getElementById("grid-container");
   const selectFile = document.getElementById("upload");
 
@@ -33,7 +34,7 @@ async function main() {
     console.log("edited?: ", data.data[foundIndex]);
   });
 
-  selectFile.addEventListener("click", readCSV);
+  uploadBtn.addEventListener("click", readCSV);
 
   function readCSV() {
     /**
