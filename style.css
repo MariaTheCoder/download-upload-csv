@@ -1,7 +1,23 @@
-.grid_container {
+.flex_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid_headers, .grid_records {
     display: grid;
-    grid-template-columns: 200px 200px 200px;
+}
+
+.grid_headers {
     margin-top: 50px;
+    grid-template-columns: 200px 200px 200px;
+}
+
+.grid_records {
+    grid-template-columns: 200px 200px 200px 50px;
+}
+
+.action_buttons {
+    text-align: center;
 }
 
 .grid_element, .grid_header {

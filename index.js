@@ -2,7 +2,8 @@ async function main() {
   const downloadBtn = document.getElementById("download-btn");
   const editBtn = document.getElementById("edit-btn");
   const uploadBtn = document.getElementById("upload-btn");
-  const gridContainer = document.getElementById("grid-container");
+  const gridHeaders = document.getElementById("grid-headers");
+  const gridRecords = document.getElementById("grid-records");
   const selectFile = document.getElementById("upload");
 
   const response = await fetch("http://localhost:9000/posts");
@@ -142,7 +143,7 @@ async function main() {
             let gridItem = document.createElement("div");
             gridItem.setAttribute("class", "grid_element");
             gridItem.innerHTML = record;
-            gridContainer.appendChild(gridItem);
+            gridHeaders.appendChild(gridItem);
           });
         }
       } else {
@@ -164,7 +165,7 @@ async function main() {
          * The records in the new grid should match the content of the selected csv file
          */
 
-        gridContainer.innerHTML = "";
+        gridHeaders.innerHTML = "";
         createGridHeaders(newHeaders);
 
         for (let i = 1; i < newData.length; i++) {
@@ -174,7 +175,7 @@ async function main() {
             let gridItem = document.createElement("div");
             gridItem.setAttribute("class", "grid_element");
             gridItem.innerHTML = record;
-            gridContainer.appendChild(gridItem);
+            gridHeaders.appendChild(gridItem);
           });
         }
       }
@@ -283,8 +284,9 @@ async function main() {
         let gridItem = document.createElement("div");
         gridItem.setAttribute("class", "grid_element");
         gridItem.innerHTML = element;
-        gridContainer.appendChild(gridItem);
+        gridRecords.appendChild(gridItem);
       });
+      createEditActionButton();
     });
   }
 
@@ -293,8 +295,15 @@ async function main() {
       let gridItem = document.createElement("div");
       gridItem.setAttribute("class", "grid_header");
       gridItem.innerHTML = header;
-      gridContainer.appendChild(gridItem);
+      gridHeaders.appendChild(gridItem);
     });
+  }
+
+  function createEditActionButton() {
+    let editActionButton = document.createElement("div");
+    editActionButton.setAttribute("class", "action_buttons");
+    editActionButton.innerHTML = "✏️";
+    gridRecords.appendChild(editActionButton);
   }
 }
 
