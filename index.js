@@ -87,7 +87,7 @@ async function main() {
        * Save the new headers in the same format as the csv variable from earlier
        */
 
-      const headers = data.headers;
+      const currentHeaders = data.headers;
       const newHeaders = newData[0];
 
       /**
@@ -99,7 +99,7 @@ async function main() {
        * If a direct comparison with two equal signs returns a boolean value of true, then the headers are identical
        */
 
-      const sortedHeaders = headers
+      const sortedHeaders = currentHeaders
         .map((header) => header.toLowerCase())
         .sort();
       const sortedNewHeaders = newHeaders
