@@ -2,7 +2,7 @@ async function main() {
   const downloadBtn = document.getElementById("download-btn");
   const editBtn = document.getElementById("edit-btn");
   const gridContainer = document.getElementById("grid-container");
-  const uploadBtn = document.getElementById("upload");
+  const selectFile = document.getElementById("upload");
 
   const response = await fetch("http://localhost:9000/posts");
   let data;
@@ -33,19 +33,19 @@ async function main() {
     console.log("edited?: ", data.data[foundIndex]);
   });
 
-  uploadBtn.addEventListener("click", readCSV);
+  selectFile.addEventListener("click", readCSV);
 
   function readCSV() {
     /**
      * First check if a file was loaded. If not, jump out of the function
      */
-    if (uploadBtn.files.length <= 0) {
+    if (selectFile.files.length <= 0) {
       return;
     }
 
     /**
      * If a file was correctly selected, use the FileReader object to see the content of the file.
-     * Get access to selected file by using the files property of the HTMLInputElement uploadBtn.
+     * Get access to selected file by using the files property of the HTMLInputElement selectFile.
      * This returns a FileList object. Save this into a constant variable called 'file'.
      *
      * To read the file, we can use a FileReader object.
@@ -53,7 +53,7 @@ async function main() {
      * The FileReader object has an instance method called readAsText() which reads the content of a file.
      * If the file is read correctly, the content of the file will be stored inside of the result attribute in the form of a string.
      */
-    const file = uploadBtn.files[0];
+    const file = selectFile.files[0];
     const fileReader = new FileReader();
     fileReader.readAsText(file);
 
