@@ -154,30 +154,16 @@ async function main() {
         deleteAllPosts();
         console.log(newHeaders);
         data = await sendNewData(newHeaders, newRecords);
-
-        data.headers = newHeaders;
-        data.data = newRecords;
-
         console.log("updated data variable: ", data);
-
         /**
          * Replace existing grid with a new one.
          * The records in the new grid should match the content of the selected csv file
          */
 
         gridHeaders.innerHTML = "";
-        createGridHeaders(newHeaders);
+        gridRecords.innerHTML = "";
 
-        for (let i = 1; i < newData.length; i++) {
-          const collection = newData[i];
-
-          collection.forEach((record) => {
-            let gridItem = document.createElement("div");
-            gridItem.setAttribute("class", "grid_element");
-            gridItem.innerHTML = record;
-            gridHeaders.appendChild(gridItem);
-          });
-        }
+        render(data.headers, data.records);
       }
     });
   }
