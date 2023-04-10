@@ -266,13 +266,15 @@ async function main() {
 
   function createGridElements(data) {
     data.forEach((row) => {
-      row.forEach((element) => {
+      for (let i = 0; i < row.length - 1; i++) {
+        const element = row[i];
+
         let gridItem = document.createElement("div");
         gridItem.setAttribute("class", "grid_element");
         gridItem.setAttribute("postId", row[0]);
         gridItem.innerHTML = element;
         gridRecords.appendChild(gridItem);
-      });
+      }
       createEditActionButton(row[0]);
     });
   }
@@ -302,7 +304,8 @@ async function main() {
       console.log("foundIndex: ", foundIndex);
       let tempCopy = data.data[foundIndex];
       console.log("temp: ", data);
-      tempCopy.editOn = true;
+      tempCopy[3]["editOn"] = true;
+
       console.log("tempCopyEdited: ", tempCopy);
       data.data[foundIndex] = await editPost(tempCopy);
 
