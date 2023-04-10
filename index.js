@@ -269,10 +269,11 @@ async function main() {
       row.forEach((element) => {
         let gridItem = document.createElement("div");
         gridItem.setAttribute("class", "grid_element");
+        gridItem.setAttribute("postId", row[0]);
         gridItem.innerHTML = element;
         gridRecords.appendChild(gridItem);
       });
-      createEditActionButton();
+      createEditActionButton(row[0]);
     });
   }
 
@@ -285,10 +286,29 @@ async function main() {
     });
   }
 
-  function createEditActionButton() {
+  function createEditActionButton(postId) {
     let editActionButton = document.createElement("div");
     editActionButton.setAttribute("class", "action_buttons");
+    editActionButton.setAttribute("postId", postId);
     editActionButton.innerHTML = "✏️";
+
+    editActionButton.addEventListener("click", async (event) => {
+      const currentPostId = Number(event.target.getAttribute("postid"));
+      console.log("currentPostId: ", currentPostId);
+
+      const foundIndex = data?.data.findIndex(
+        (record) => record[0] === currentPostId
+      );
+      console.log("foundIndex: ", foundIndex);
+      let tempCopy = data.data[foundIndex];
+      console.log("temp: ", data);
+      tempCopy.editOn = true;
+      console.log("tempCopyEdited: ", tempCopy);
+      data.data[foundIndex] = await editPost(tempCopy);
+
+      console.log("edited?: ", data.data[foundIndex]);
+    });
+
     gridRecords.appendChild(editActionButton);
   }
 }
