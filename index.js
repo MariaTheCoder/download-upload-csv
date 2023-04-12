@@ -1,6 +1,5 @@
 async function main() {
   const downloadBtn = document.getElementById("download-btn");
-  const editBtn = document.getElementById("edit-btn");
   const uploadBtn = document.getElementById("upload-btn");
   const gridHeaders = document.getElementById("grid-headers");
   const gridRecords = document.getElementById("grid-records");
@@ -22,18 +21,6 @@ async function main() {
   render(data.headers, data.data);
 
   downloadBtn.addEventListener("click", downloadCSV);
-
-  editBtn.addEventListener("click", async () => {
-    const id = 1;
-
-    const foundIndex = data?.data.findIndex((record) => record[0] === id);
-    let tempCopy = data.data[foundIndex];
-    tempCopy[0] = 9;
-    data.data[foundIndex] = await editPost(tempCopy);
-
-    editBtn.innerHTML = "Successful!";
-    console.log("edited?: ", data.data[foundIndex]);
-  });
 
   uploadBtn.addEventListener("click", readCSV);
 
