@@ -140,7 +140,7 @@ async function main() {
 
         deleteAllPosts();
         console.log(newHeaders);
-        data = await sendNewData(newHeaders, newRecords);
+        data = await sendNewPosts(newHeaders, newRecords);
         console.log("updated data variable: ", data);
         /**
          * Replace existing grid with a new one.
@@ -215,7 +215,7 @@ async function main() {
     }
   }
 
-  async function sendNewData(headers, records) {
+  async function sendNewPosts(headers, records) {
     const response = await fetch("http://localhost:9000/posts", {
       method: "POST",
       headers: {
