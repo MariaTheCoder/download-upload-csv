@@ -252,8 +252,18 @@ async function main() {
   }
 
   function createGridElements(data) {
-    data.forEach((row) => {
-      for (let i = 0; i < row.length - 1; i++) {
+    /**
+     * The records fetched from the backend contains an object which we do not desire in our grid.
+     * Therefore, we use map and filter on the data to filter out elements that are not of the type object and store them in a variable.
+     * The elements that this variable consists of, we then iterate over to create our grid elements.
+     */
+
+    const filteredRecords = data.map((record) =>
+      record.filter((element) => typeof element !== "object")
+    );
+
+    filteredRecords.forEach((row) => {
+      for (let i = 0; i < row.length; i++) {
         const element = row[i];
 
         let gridItem = document.createElement("div");
@@ -289,6 +299,7 @@ async function main() {
         (record) => record[0] === currentPostId
       );
       console.log("foundIndex: ", foundIndex);
+
       let tempCopy = data.data[foundIndex];
       console.log("temp: ", data);
       tempCopy[3]["editOn"] = true;
