@@ -234,7 +234,7 @@ async function main() {
     }
   }
 
-  async function editPost(record) {
+  async function sendEditedPost(record) {
     const response = await fetch("http://localhost:9000/put/:id", {
       method: "PUT",
       headers: {
@@ -294,7 +294,7 @@ async function main() {
       tempCopy[3]["editOn"] = true;
 
       console.log("tempCopyEdited: ", tempCopy);
-      data.data[foundIndex] = await editPost(tempCopy);
+      data.data[foundIndex] = await sendEditedPost(tempCopy);
 
       console.log("edited?: ", data.data[foundIndex]);
     });
